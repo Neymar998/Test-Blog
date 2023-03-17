@@ -1,8 +1,19 @@
-order:1
-flex:4
-@media(min-width:700px){
-    order:1
-}
-path{
+1. order:1 
+    flex弹性布局中改变顺序
+    blogpost组件中利用:nth-child(even){ //偶数
+        order:1
+    }
+    改变图片与文字信息的前后关系
+
+2. flex:4
+    比例
+
+3. @media(min-width:700px){
+        order:1
+    }
+    媒体查询，width >= 700px
+
+4. path{
     fill:#fff
 }
+    给SVG图标填充颜色
