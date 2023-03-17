@@ -1,3 +1,15 @@
+git 命令行使用：
+cd 到指定文件夹
+git init 初始化
+git add <file>将文件加入到仓库 ：全部加到仓库 git add .
+git commit -m <message> 将文件提交到仓库，-m后面输入的是本次提交的说明
+git status 查看状态
+git diff 查看difference
+git log 查看历史记录
+
+git remote add origin https://github.com/Neymar998/weather-forecast.git
+git push -u origin master 提交到远程仓库
+
 1. order:1 
     flex弹性布局中改变顺序
     blogpost组件中利用:nth-child(even){ //偶数
