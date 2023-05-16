@@ -29,3 +29,7 @@ git push -u origin master 提交到远程仓库
     fill:#fff
 }
     给SVG图标填充颜色
+
+5. vueQuill 完善
+
+6.position:relative

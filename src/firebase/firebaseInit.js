@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import "firebase/firestore"
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -10,12 +12,12 @@ const firebaseConfig = {
     projectId: "test-blog-d03f5",
     storageBucket: "test-blog-d03f5.appspot.com",
     messagingSenderId: "190400527351",
-    appId: "1:190400527351:web:51bcbfe8f6aed8d42d8cf2"
+    appId: "1:190400527351:web:51bcbfe8f6aed8d42d8cf2",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const timestamp = firebase.firestore.FieldValue.serverTimestamp
-
-export { timestamp }
-export default app.firestore()
+export const auth = getAuth(app)
+//init firestore service
+const db = getFirestore()
+export default db

@@ -2,43 +2,85 @@
     <header>
         <nav class="container">
             <div class="branding">
-                <router-link class="header" :to="{ name: 'Home' }">Test-Blog</router-link>
+                <RouterLink class="header" :to="{ name: 'Home' }">Test-Blog</RouterLink>
             </div>
             <div class="nav-links">
                 <ul v-show="!mobile">
-                    <router-link class="link" to="#">Home</router-link>
-                    <router-link class="link" to="#">Blogs</router-link>
-                    <router-link class="link" to="#">Create Post</router-link>
-                    <router-link class="link" to="#">Login/Register</router-link>
+                    <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
                 </ul>
+                <div class="profile" ref="profile" @click="profileMenu = !profileMenu">
+                    <span>profileInitials</span>
+                    <div class="profile-menu" v-show="profileMenu">
+                        <div class="info">
+                            <p class="initials">initials</p>
+                            <div class="right">
+                                <p>firstName + lastName</p>
+                                <p>@nickName</p>
+                                <p>email</p>
+                            </div>
+                        </div>
+                        <div class="options">
+                            <div class="option">
+                                <RouterLink class="option" to="#">
+                                    <userIcon class="icon" />
+                                    <p>profile</p>
+                                </RouterLink>
+                            </div>
+                            <div class="option">
+                                <RouterLink class="option" to="#">
+                                    <adminIcon class="icon" />
+                                    <p>admin</p>
+                                </RouterLink>
+                            </div>
+                            <div class="option">
+                                <RouterLink to="#" class="option" @click="out">
+                                    <signOutIcon class="icon" />
+                                    <p>sign out</p>
+                                </RouterLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
         <menuIcon @click="toggle" :class="{ 'rotate': showAnimate }" class="menu-icon" v-show="mobile">
         </menuIcon>
-        <transition name="mobile-nav">
+        <Transition name="mobile-nav">
             <ul class="mobile-nav" v-show="mobileNav">
-                <router-link class="link" to="#">Home</router-link>
-                <router-link class="link" to="#">Blogs</router-link>
-                <router-link class="link" to="#">Create Post</router-link>
-                <router-link class="link" to="#">Login/Register</router-link>
+                <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
+                <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
+                <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
+                <RouterLink class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
             </ul>
-        </transition>
+        </Transition>
     </header>
 </template>
 
 <script setup>
-import menuIcon from '../assets/Icons/bars-regular.svg'
+import menuIcon from '../assets/Icons/bars-regular.svg';
+import userIcon from '../assets/Icons/user-alt-light.svg';
+import adminIcon from '../assets/Icons/user-crown-light.svg';
+import signOutIcon from '../assets/Icons/sign-out-alt-regular.svg';
 import { onMounted, ref } from 'vue'
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebaseInit';
 let mobile = ref(true)
 let mobileNav = ref(false)
 let windowWidth = null
 let showAnimate = ref(false)
+let profileMenu = ref(false)
 onMounted(() => {
     window.addEventListener('resize', checkScreen)
     checkScreen()
 })
-
+const out = () => {
+    signOut(auth)
+        .then(r => console.log(r))
+        .catch()
+}
 const checkScreen = () => {
     windowWidth = window.innerWidth
     if (windowWidth <= 720) {
@@ -110,6 +152,83 @@ header {
 
                 .link:last-child {
                     margin-right: 0;
+                }
+            }
+
+            .profile {
+                font-size: 12px;
+                position: relative;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                color: #fff;
+                background-color: #303030;
+
+                .profile-menu {
+                    position: absolute;
+                    top: 60px;
+                    right: 0;
+                    width: 250px;
+                    background-color: #303030;
+
+                    .info {
+                        display: flex;
+                        align-items: center;
+                        padding: 15px;
+                        border-bottom: 1px solid #fff;
+
+                        .initials {
+                            position: initial;
+                            width: 40px;
+                            height: 40px;
+                            background-color: #fff;
+                            color: #303030;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 50%;
+                        }
+
+                        .right {
+                            flex: 1;
+                            margin-left: 24px;
+                            font-size: 12px;
+
+                            p:nth-child(1) {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+
+                    .options {
+                        padding: 15px;
+
+                        .option {
+                            text-decoration: none;
+                            color: #fff;
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 12px;
+
+                            .icon {
+                                width: 18px;
+                                height: auto;
+                            }
+
+                            p {
+                                margin-left: 12px;
+                                font-size: 14px;
+                            }
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
                 }
             }
         }
