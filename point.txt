@@ -1,14 +1,14 @@
 git 命令行使用：
-cd 到指定文件夹
-git init 初始化
-git add <file>将文件加入到仓库 ：全部加到仓库 git add .
-git commit -m <message> 将文件提交到仓库，-m后面输入的是本次提交的说明
-git status 查看状态
-git diff 查看difference
-git log 查看历史记录
+    cd 到指定文件夹
+    git init 初始化
+    git add <file>将文件加入到仓库 ：全部加到仓库 git add .
+    git commit -m <message> 将文件提交到仓库，-m后面输入的是本次提交的说明
+    git status 查看状态
+    git diff 查看difference
+    git log 查看历史记录
 
-git remote add origin https://github.com/Neymar998/weather-forecast.git
-git push -u origin master 提交到远程仓库
+    git remote add origin https://github.com/Neymar998/weather-forecast.git
+    git push -u origin master 提交到远程仓库
 
 1. order:1 
     flex弹性布局中改变顺序
@@ -33,3 +33,53 @@ git push -u origin master 提交到远程仓库
 5. vueQuill 完善
 
 6.position:relative
+
+
+
+Problems：
+CreatePost.vue  1.发布blog可能会丢失router的blogid造成报错  √
+                2.home.vue 或 blog.vue也没有按照时间排序
+                两者都需要手动刷新
+                3.缓存问题 ：发布成功之后清空
+
+
+
+
+Fixed:
+调整Blog.vue中 v-for的key修复删除blog更新的错位问题
+修复了用户登录 =>头像的显示
+修复了直接加载viewblog时控制台报错情况 可进一步优化 骨架屏=>blogs
+改善了blog的发布时间显示，使之更具有交互性
+
+
+todo：
+路由守卫 √
+编辑帖子
+交互体验：
+        1.注册成功
+        2.删别人帖子
+        3.登录成功
+        4.
+发布帖子添加图片裁剪功能
+忘记密码
+用户信息修改（可做可不做）
+
+
+设计改进：
+Home页面展示全部post  =>  懒加载 首屏优化
+blog页面只展示自己的post（才有编辑按钮） || 搜索指定用户的post
+post显示作者 点击进入该作者的全部post
+
+
+
+
+
+
+
+
+
+
+
+
+
+

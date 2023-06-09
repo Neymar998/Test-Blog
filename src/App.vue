@@ -11,18 +11,22 @@
 <script setup>
 import Navigation from './components/Navigation.vue';
 import Footer from './components/Footer.vue';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed, watchEffect } from 'vue';
 import { useRoute } from 'vue-router'
 import { useProfileStore } from './stores/profile'
+import { useGetpostStore } from './stores/get';
+import { auth } from './firebase/firebaseInit';
+
+const storeGetpost = useGetpostStore()
 const store = useProfileStore()
-store.getCurrentUser()
+const route = useRoute()
 
 let navigation = ref(null)
 
-const route = useRoute()
-
-onMounted(() => {
+onMounted(async () => {
   checkRouter()
+  await storeGetpost.getPost()
+  store.getCurrentUser()
 })
 
 const checkRouter = () => {
@@ -37,16 +41,20 @@ watch(
   () => route.name,
   checkRouter,
 )
+// watchEffect(
+//   computed(() => auth.onAuthStateChanged),
+//   store.getCurrentUser(),
+// )
 
 </script>
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Noto Sans SC', sans-serif;
 }
 
 .app {
@@ -91,7 +99,7 @@ button,
   transition: 500ms ease all;
   cursor: pointer;
   margin-top: 24px;
-  padding: 12px 24px;
+  padding: 12px 30px;
   background-color: #303030;
   color: #fff;
   border-radius: 20px;

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { auth } from '../firebase/firebaseInit';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -48,7 +49,17 @@ const router = createRouter({
       name: 'CreatePost',
       component: () => import('../views/CreatePost.vue'),
       meta: {
-        title: "CreatePost"
+        title: "CreatePost",
+        requireAuth: true
+      }
+    },
+    {
+      path: "/view-blog/:blogid",
+      name: "ViewBlog",
+      props: true,
+      component: () => import('../views/ViewBlog.vue'),
+      meta: {
+        title: "ViewBlog"
       }
     }
   ]
@@ -59,5 +70,19 @@ router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} | Test-Blog`
   next()
 })
+
+
+router.beforeEach((to, from, next) => {
+  const user = auth.currentUser
+  if (to.matched.some((res) => res.meta.requireAuth)) {
+    if (user) {
+      return next()
+    } else {
+      return next({ name: 'Home' })
+    }
+  }
+  return next()
+})
+
 
 export default router

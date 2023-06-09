@@ -2,34 +2,34 @@
     <div class="form-wrap">
         <form class="register">
             <p class="login-register">
-                Already have an account ?
-                <router-link class="router-link" :to="{ name: 'Login' }">Login</router-link>
+                已经有账号了?
+                <router-link class="router-link" :to="{ name: 'Login' }">登录</router-link>
             </p>
-            <h2>Create Your TestBlog Account</h2>
+            <h3>创建你的TestBlog账号</h3>
             <div class="inputs">
                 <div class="input">
-                    <input type="text" placeholder="First Name" v-model="firstName">
+                    <input type="text" placeholder="姓" v-model="firstName">
                     <User class="icon" />
                 </div>
                 <div class="input">
-                    <input type="text" placeholder="Last Name" v-model="lastName">
+                    <input type="text" placeholder="名" v-model="lastName">
                     <User class="icon" />
                 </div>
                 <div class="input">
-                    <input type="text" placeholder="Username" v-model="username">
+                    <input type="text" placeholder="用户名" v-model="username">
                     <User class="icon" />
                 </div>
                 <div class="input">
-                    <input type="text" placeholder="Email" v-model="email">
+                    <input type="text" placeholder="邮箱" v-model="email">
                     <Email class="icon" />
                 </div>
                 <div class="input">
-                    <input type="password" placeholder="Password" v-model="password">
+                    <input type="password" placeholder="密码" v-model="password">
                     <Password class="icon" />
                 </div>
             </div>
             <div v-show="error" class="error">{{ errorMsg }}</div>
-            <button @click.prevent="register">Sing Up</button>
+            <button @click.prevent="register"> 注册</button>
             <div class="angle"></div>
         </form>
         <div class="background"></div>
@@ -42,8 +42,9 @@ import Password from '../assets/Icons/lock-alt-solid.svg'
 import User from '../assets/Icons/user-alt-light.svg'
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc, doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import db from '../firebase/firebaseInit'
+import router from "../router";
 
 const firstName = ref()
 const lastName = ref()
@@ -73,6 +74,7 @@ const register = async () => {
                     email: email.value
                 }
                 await setDoc(doc(db, 'users', user.uid), dataObj)
+                router.push({ name: 'Login' })
 
             })
             .catch((e) => {
@@ -86,13 +88,6 @@ const register = async () => {
 
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "../../public/css/login-register-forget.scss";
-
-.register {
-    h2 {
-        max-width: 350px;
-
-    }
-}
 </style>

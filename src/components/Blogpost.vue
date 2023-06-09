@@ -2,20 +2,20 @@
     <div class="blog-wrapper no-user">
         <div class="blog-content">
             <div>
-                <h2 v-if="props.props.welcomScreen">{{ props.props.blogPost }}</h2>
-                <h2 v-else>{{ props.props.blogHTML }}</h2>
-                <router-link v-if="props.props.welcomScreen" to="#" class="link link-light">
-                    Login/Register
+                <h2 v-if="props.welcomScreen">{{ props.blogPost }}</h2>
+                <h2 v-else>{{ props.blogTitle }}</h2>
+                <router-link v-if="props.welcomScreen" to="#" class="link link-light">
+                    Top 0
                     <Arrow class="arrow arrow-light" />
                 </router-link>
-                <router-link v-else to="#" class="link">
+                <router-link v-else :to="{ name: 'ViewBlog', params: { blogid: props.blogID } }" class="link">
                     View the Post
                     <Arrow class="arrow " />
                 </router-link>
             </div>
         </div>
         <div class="blog-photo">
-            <img v-if="props.props.welcomScreen" :src="imgaleUrl1" alt="">
+            <img v-if="props.welcomScreen" :src="imgaleUrl1" alt="">
             <img v-else :src="imgaleUrl2" alt="">
         </div>
     </div>
@@ -23,9 +23,12 @@
 
 <script setup>
 import Arrow from '../assets/Icons/arrow-right-light.svg'
-const props = defineProps(['props'])
-const imgaleUrl1 = new URL(`../assets/blogPhotos/${props.props.photo}.jpg`, import.meta.url).href
-const imgaleUrl2 = new URL(`../assets/blogPhotos/${props.props.blogCoverPhoto}.jpg`, import.meta.url).href
+const propssss = defineProps(['props'])
+const props = propssss.props
+// const imgaleUrl1 = props.blogCoverPhoto
+const imgaleUrl2 = props.blogCoverPhoto
+const imgaleUrl1 = new URL(`../assets/blogPhotos/${props.photo}.jpg`, import.meta.url).href
+// const imgaleUrl2 = new URL(`../assets/blogPhotos/${props.props.blogCoverPhoto}.jpg`, import.meta.url).href
 </script>
 
 <style lang="scss">

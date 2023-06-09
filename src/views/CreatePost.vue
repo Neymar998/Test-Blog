@@ -1,40 +1,75 @@
 <template>
     <div class="create-post">
         <BlogCoverPreview v-show="store.blogPhotoPreview" />
+        <Loading v-show="loading" />
         <div class="container">
-            <div class="error-message">
-                <p><span>Error:</span>出错了？</p>
+            <div class="err-message" :class="{ invisible: !error }">
+                <h6><span>Error:</span>{{ errorMessage }}</h6>
             </div>
             <div class="blog-info">
-                <input type="text" placeholder="Enter Blog Title" v-model="store.blogTitle">
+                <input type="text" placeholder="输入博客标题" v-model="blogTitle">
                 <div class="upload-file">
-                    <label for="blog-photo">Upload Cover Photo</label>
+                    <label for="blog-photo">上传封面图片</label>
                     <input type="file" ref="blogPhoto" id="blog-photo" accept=".png, .jpg, .jpeg" @change="fileChange">
                     <button @click="openPreview" class="preview"
-                        :class="{ 'button-inactive': !store.blogPhotoFileURL }">Preview Photo</button>
+                        :class="{ 'button-inactive': !store.blogPhotoFileURL }">预览图片</button>
                     <span>File Chosen:{{ store.blogPhotoName }}</span>
                 </div>
             </div>
             <div class="editor">
-                <QuillEditor theme="snow" v-model:content="blogHTML" @ready="onEditorReady($event)"></QuillEditor>
+                <quill-editor v-model:value="state.content" :options="state.editorOption" :disabled="state.disabled"
+                    @change="onEditorChange($event)" />
             </div>
             <div class="blog-actions">
-                <button>Publish Blog</button>
-                <router-link to="#" class="router-button">Preview Post</router-link>
+                <button @click="uploadBlog"> 发 布 </button>
+                <!-- <router-link :to="{ name: 'BlogPreview' }" class="router-button">预览一下</router-link> -->
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, reactive, nextTick } from 'vue';
 import { usePostStore } from '../stores/post';
+import { useGetpostStore } from '../stores/get';
+import { useRouter } from 'vue-router';
+import { useProfileStore } from '../stores/profile';
+import { quillEditor } from 'vue3-quill'
+import { addDoc, collection, updateDoc, doc } from 'firebase/firestore'
+import db from '../firebase/firebaseInit'
 import BlogCoverPreview from '../components/BlogCoverPreview.vue';
+import Loading from '../components/Loading.vue'
 const store = usePostStore()
+const profileStore = useProfileStore()
+const storeGetpost = useGetpostStore()
+const router = useRouter()
 
-const file = ref(null)
-const blogPhoto = ref(null)
+let error = ref(null)
+let errorMessage = ref(null)
+let loading = ref(null)
+let file = ref(null)
+let blogPhoto = ref(null)
+
+let state = reactive({
+    content: 'Write your blog here ...',
+    _content: 'fuck',
+    editorOption: {
+        placeholder: 'Write your blog here ...',
+        modules: {}
+    },
+    disabled: false
+})
+let blogTitle = computed({
+    get() {
+        return store.blogTitle
+    },
+    set(payload) {
+        store.updateBlogTitle(payload)
+    }
+})
+// 封面图片
 const fileChange = (event) => {
+    // file.value = blogPhoto.value.files[0]
     file.value = event.target.files[0]
     const fileName = file.value.name
     store.updateFileName(fileName)
@@ -48,36 +83,62 @@ const fileChange = (event) => {
     // 读取文件
     reader.readAsDataURL(file.value)
 }
-
-
-const profileId = computed(() => {
-    return store.profileId
-})
-const blogCoverPhoto = computed(() => {
-    return store.blogPhotoName
-})
-const blogTitle = computed({
-    get() {
-        return store.blogTitle
-    },
-    set(payload) {
-        store.updateBlogTitle(payload)
-    }
-})
-const blogHTML = computed({
-    get() {
-        return store.blogHTML
-    },
-    set(payload) {
-        store.newBlogPost(payload)
-    }
-})
-const onEditorReady = (e) => {
-    // console.log(e);
-    e.container.querySelector('.ql-blank').innerHTML = 'write your blog here...'
+//监听文本编辑器
+const onEditorChange = (html) => {
+    state._content = html
+    store.newBlogPost(html)
 }
+//是否预览封面图片
 const openPreview = () => {
     store.openPhotoPreview()
+}
+//发布blog
+// let blogID = ''
+const uploadBlog = async () => {
+    if (blogTitle.value && store.blogHTML) {
+        if (file.value) {
+            loading.value = true
+            const colRef = collection(db, 'blogPosts')
+            const dataObj = {
+                blogTitle: blogTitle.value,
+                blogCoverPhoto: store.blogPhotoFileURL,
+                blogCoverName: store.blogPhotoName,
+                blogHTML: store.blogHTML.html,
+                date: new Date(),
+                profileID: profileStore.profileId,
+            }
+            await addDoc(colRef, dataObj)
+                .then(async (docRef) => {
+                    // console.log('NO1：刚才发布的blogid:', docRef.id);
+                    const blogID = docRef.id
+                    await updateDoc(doc(db, 'blogPosts', blogID), {
+                        blogID: blogID
+                    }, { merge: true })
+                })
+                .then(async () => {
+                    await storeGetpost.getPost()
+                    loading.value = false
+                    // console.log('NO3：马上我要跳转了');
+                    router.push('/')
+                }).catch((e) => {
+                    loading.value = false
+                    errorMessageFun(`发布失败${e}`, 5000)
+                    return
+                })
+        } else {
+            errorMessageFun('请上传封面', 2000)
+            return
+        }
+    }
+    errorMessageFun('没有Title或者Blog为空', 2000)
+}
+const errorMessageFun = (str, time) => {
+    error.value = true
+    errorMessage.value = str
+    setTimeout(() => {
+        error.value = false
+        errorMessage.value = ''
+    }, time);
 }
 </script>
 
@@ -117,10 +178,9 @@ const openPreview = () => {
         position: relative;
         height: 100%;
         padding: 10px 25px 60px;
-
     }
 
-    //error style
+    // error styling
     .invisible {
         opacity: 0 !important;
     }
@@ -128,8 +188,10 @@ const openPreview = () => {
     .err-message {
         width: 100%;
         padding: 12px;
+        border-radius: 8px;
         color: #fff;
         margin-bottom: 10px;
+        background-color: #303030;
         opacity: 1;
         transition: 0.5s ease all;
 
@@ -147,7 +209,7 @@ const openPreview = () => {
         margin-bottom: 32px;
 
         input:nth-child(1) {
-            min-width: 300px;
+            min-width: 30px;
         }
 
         input {

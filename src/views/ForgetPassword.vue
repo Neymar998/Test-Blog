@@ -4,16 +4,16 @@
         <Loading v-if="loadingActive"></Loading>
         <div class="form-wrap">
             <form class="reset">
-                <h2>Reset Password</h2>
-                <router-link class="router-link" :to="{ name: 'Login' }">Back to login in</router-link>
-                <p>Forgot your password? Enter your email</p>
+                <h2>重置密码</h2>
+                <router-link class="router-link" :to="{ name: 'Login' }">返回到登录</router-link>
+                <p>忘记密码? 请输入邮箱</p>
                 <div class="inputs">
                     <div class="input">
                         <input type="text" placeholder="Email" v-model="email">
                         <Email class="icon" />
                     </div>
                 </div>
-                <button>Reset</button>
+                <button>重置</button>
                 <div class="angle"></div>
             </form>
             <div class="background"></div>

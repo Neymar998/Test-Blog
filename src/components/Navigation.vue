@@ -9,21 +9,21 @@
                     <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
                     <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
                     <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
-                    <RouterLink class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
+                    <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
                 </ul>
-                <div class="profile" ref="profile" @click="profileMenu = !profileMenu">
-                    <span>profileInitials</span>
+                <div class="profile" ref="profile" @click="profileMenu = !profileMenu" v-if="user">
+                    <span>{{ profileStore.profileInitials }}</span>
                     <div class="profile-menu" v-show="profileMenu">
                         <div class="info">
-                            <p class="initials">initials</p>
+                            <p class="initials">{{ profileStore.profileInitials }}</p>
                             <div class="right">
-                                <p>firstName + lastName</p>
-                                <p>@nickName</p>
-                                <p>email</p>
+                                <p>{{ profileStore.profileFirstName }} {{ profileStore.profileLastName }}</p>
+                                <p>{{ profileStore.profileUsername }}</p>
+                                <p>{{ profileStore.profileEmail }}</p>
                             </div>
                         </div>
                         <div class="options">
-                            <div class="option">
+                            <!-- <div class="option">
                                 <RouterLink class="option" to="#">
                                     <userIcon class="icon" />
                                     <p>profile</p>
@@ -34,11 +34,11 @@
                                     <adminIcon class="icon" />
                                     <p>admin</p>
                                 </RouterLink>
-                            </div>
+                            </div> -->
                             <div class="option">
                                 <RouterLink to="#" class="option" @click="out">
                                     <signOutIcon class="icon" />
-                                    <p>sign out</p>
+                                    <p>退出账号</p>
                                 </RouterLink>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                 <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
                 <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
                 <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
-                <RouterLink class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
+                <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
             </ul>
         </Transition>
     </header>
@@ -64,9 +64,14 @@ import menuIcon from '../assets/Icons/bars-regular.svg';
 import userIcon from '../assets/Icons/user-alt-light.svg';
 import adminIcon from '../assets/Icons/user-crown-light.svg';
 import signOutIcon from '../assets/Icons/sign-out-alt-regular.svg';
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, reactive, watch } from 'vue'
+import { useProfileStore } from '../stores/profile';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebaseInit';
+
+const profileStore = useProfileStore()
+let user = computed(() => profileStore.user)
+
 let mobile = ref(true)
 let mobileNav = ref(false)
 let windowWidth = null
@@ -78,8 +83,12 @@ onMounted(() => {
 })
 const out = () => {
     signOut(auth)
-        .then(r => console.log(r))
-        .catch()
+        .then(() => {
+            profileStore.getCurrentUser()
+            console.log('退出成功');
+        }).catch((error) => {
+            console.log('退出出现错误', error);
+        })
 }
 const checkScreen = () => {
     windowWidth = window.innerWidth

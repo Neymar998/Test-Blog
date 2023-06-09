@@ -4,17 +4,18 @@
             <div class="icon">
                 <Edit class="edit"></Edit>
             </div>
-            <div class="icon">
+            <div class="icon" @click="deleteblog">
                 <Delete class="delete"></Delete>
             </div>
         </div>
         <img :src="imgaleUrl1">
         <div class="info">
             <h4>{{ props.props.blogTitle }}</h4>
-            <h6>Posted on:{{ props.props.blogDate }}</h6>
-            <router-link class="link" to="#">View The Post
+            <h6>Posted on:{{ props.props.blogDate.toLocaleDateString() }}</h6>
+            <router-link class="link" :to="{ name: 'ViewBlog', params: { blogid: props.props.blogID } }">View The Post
                 <Arrow class="arrow" />
             </router-link>
+            {{ props.props.blogID }}
         </div>
     </div>
 </template>
@@ -24,14 +25,33 @@ import Arrow from '../assets/Icons/arrow-right-light.svg'
 import Edit from '../assets/Icons/edit-regular.svg'
 import Delete from '../assets/Icons/trash-regular.svg'
 import { useBlogCardStore } from '../stores/counter';
+import { useGetpostStore } from '../stores/get';
 import { computed } from 'vue';
+import { useProfileStore } from '../stores/profile';
+
+
 const store = useBlogCardStore()
+const storeGetpost = useGetpostStore()
+const progileStore = useProfileStore()
+
 const props = defineProps(['props'])
-const imgaleUrl1 = new URL(`../assets/blogCards/${props.props.blogCoverPhoto}.jpg`, import.meta.url).href
+
+
+const imgaleUrl1 = props.props.blogCoverPhoto
+
 const toggle = computed(() => {
     return store.editPost
 })
 
+const deleteblog = () => {
+    if (progileStore.profileId === props.props.blogProfileId) {
+        console.log(props.props.blogID);
+        storeGetpost.deletePost(props.props.blogID)
+    } else {
+        alert("You are not the owner of this post")
+    }
+
+}
 
 </script>
 
@@ -96,7 +116,7 @@ const toggle = computed(() => {
         border-radius: 8px 8px 0 0;
         z-index: 1;
         width: 100%;
-        min-height: 200px;
+        max-height: 200px;
         object-fit: cover;
     }
 

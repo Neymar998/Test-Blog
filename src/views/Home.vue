@@ -6,15 +6,15 @@
             <div class="container">
                 <h3>View More Recent Card</h3>
                 <div class="blog-cards">
-                    <Blogcard :props=post v-for="(post, index) in sampleBlogCard" :key="index" />
+                    <Blogcard :props="post" v-for="(post, index) in sampleBlogCards" :key="index" />
                 </div>
             </div>
         </div>
-        <div class="updates">
+        <div class="updates" v-if="!user">
             <div class="container">
-                <h2>never miss a post. Register for your free account today!</h2>
-                <router-link class="router-button" to="#">
-                    Register for FireBlogs
+                <h2>不错过任何帖子。 立即注册您的免费帐户！</h2>
+                <router-link class="router-button" :to="{ name: 'Register' }">
+                    立即注册
                     <Arrow class="arrow arrow-light" />
                 </router-link>
             </div>
@@ -26,26 +26,24 @@
 import Arrow from '../assets/Icons/arrow-right-light.svg'
 import Blogpost from '../components/Blogpost.vue';
 import Blogcard from '../components/Blogcard.vue';
-import { reactive } from 'vue'
-import { useBlogCardStore } from '../stores/counter';
-const BlogCardStore = useBlogCardStore()
-const sampleBlogCard = BlogCardStore.sampleBlogCard
+import { reactive, computed } from 'vue'
+import { useGetpostStore } from '../stores/get';
+import { useProfileStore } from '../stores/profile';
 
+const profileStore = useProfileStore()
+let user = computed(() => profileStore.user)
+
+const storeGetpost = useGetpostStore()
+const sampleBlogPost = computed(() => storeGetpost.blogPostsFeed);
+const sampleBlogCards = computed(() => storeGetpost.blogPostsCards);
 let welcomScreen = reactive({
     title: 'Welcome!',
-    blogPost: "Just fucking go on ,let's do it!欢迎来到90年代",
+    blogPost: "欢迎来到个人博客，只为记录美好生活",
     welcomScreen: true,
     photo: "coding"
 })
-let sampleBlogPost = reactive([{
-    title: 'This is a title1',
-    blogHTML: 'aaaaa',
-    blogCoverPhoto: 'beautiful-stories'
-}, {
-    title: 'This is a title2',
-    blogHTML: 'bbbbbbbbbbbbbbb',
-    blogCoverPhoto: 'designed-for-everyone'
-}])
+
+
 
 </script>
 

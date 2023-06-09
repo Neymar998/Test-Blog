@@ -2,10 +2,10 @@
     <div class="blog-card-wrap">
         <div class="blog-cards container">
             <div class="toggle-edit">
-                <span>Toggle Edit Post</span>
+                <span>切换编辑帖子：</span>
                 <input type="checkbox" v-model="editPost">
             </div>
-            <Blogcard :props="post" v-for="(post, index) in sampleBlogCard" :key="index" />
+            <Blogcard :props="post" v-for="(post, index) in blogPosts" :key="post.blogID"></Blogcard>
         </div>
     </div>
 </template>
@@ -13,9 +13,12 @@
 import Blogcard from '../components/Blogcard.vue';
 import { useBlogCardStore } from '../stores/counter';
 import { computed } from '@vue/reactivity';
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount, reactive, watchEffect } from 'vue';
+import { useGetpostStore } from '../stores/get';
+const storeGetpost = useGetpostStore()
 const store = useBlogCardStore()
-const sampleBlogCard = computed(() => store.sampleBlogCard)
+const blogPosts = computed(() => storeGetpost.blogPosts)
+
 const editPost = computed({
     get() {
         return store.editPost

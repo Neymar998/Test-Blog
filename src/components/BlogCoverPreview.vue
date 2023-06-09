@@ -16,7 +16,6 @@ const store = usePostStore()
 const closePreview = () => {
     store.openPhotoPreview()
 }
-
 const blogCoverPhoto = computed(() => {
     return store.blogPhotoFileURL
 })

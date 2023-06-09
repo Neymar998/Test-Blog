@@ -14,11 +14,10 @@ export const usePostStore = defineStore("post", () => {
 
     const updateBlogTitle = (payload) => {
         blogTitle.value = payload
-        // console.log(blogTitle.value);
     }
     const newBlogPost = (payload) => {
         blogHTML.value = payload
-        // console.log(blogHTML.value);
+        console.log('bianle');
     }
     const updateFileName = (payload) => {
         blogPhotoName.value = payload
@@ -26,7 +25,6 @@ export const usePostStore = defineStore("post", () => {
     const createFileURL = (payload) => {
         blogPhotoFileURL.value = payload
     }
-
     // 预览按钮
     const openPhotoPreview = () => {
         blogPhotoPreview.value = !blogPhotoPreview.value
