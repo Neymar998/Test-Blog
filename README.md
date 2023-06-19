@@ -8,4 +8,4 @@ use [vue3](https://cn.vuejs.org/), [vue-router](https://router.vuejs.org/zh/), [
 
 Online website: https://test-blog-d03f5.web.app/  or https://mytestblog.netlify.app/
 
-🚧：because of firebase cannot be accessed you need to 🚀 🌐
+🚧：because of firebase cannot be accessed you need to 🚀 🌐, Otherwise you just see an empty shell with no content.
