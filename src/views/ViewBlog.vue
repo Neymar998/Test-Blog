@@ -8,7 +8,14 @@
                 <div class="post-contain ql-editor" v-html="currentBlog.blogHTML"></div>
             </template>
             <template v-else>
-                loading...
+                <el-skeleton animated>
+                    <template #template>
+                        <el-skeleton-item variant="h1" style="display:block;width: 20%;margin-bottom: 20px;" />
+                        <el-skeleton-item variant="h3" style="width: 30%;margin-bottom:10px ;" />
+                        <el-skeleton-item variant="image" style="width: 240px; height: 240px"></el-skeleton-item>
+                        <el-skeleton variant="p" :rows="15" />
+                    </template>
+                </el-skeleton>
             </template>
         </div>
     </div>

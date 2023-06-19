@@ -48,7 +48,7 @@ CreatePost.vue  1.发布blog可能会丢失router的blogid造成报错  √
 Fixed:
 调整Blog.vue中 v-for的key修复删除blog更新的错位问题
 修复了用户登录 =>头像的显示
-修复了直接加载viewblog时控制台报错情况 可进一步优化 骨架屏=>blogs
+修复了直接加载viewblog时控制台报错情况 可进一步优化 骨架屏=>viewblogs
 改善了blog的发布时间显示，使之更具有交互性
 
 

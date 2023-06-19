@@ -11,11 +11,10 @@
 <script setup>
 import Navigation from './components/Navigation.vue';
 import Footer from './components/Footer.vue';
-import { ref, watch, onMounted, computed, watchEffect } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import { useProfileStore } from './stores/profile'
 import { useGetpostStore } from './stores/get';
-import { auth } from './firebase/firebaseInit';
 
 const storeGetpost = useGetpostStore()
 const store = useProfileStore()
@@ -41,10 +40,6 @@ watch(
   () => route.name,
   checkRouter,
 )
-// watchEffect(
-//   computed(() => auth.onAuthStateChanged),
-//   store.getCurrentUser(),
-// )
 
 </script>
 <style lang="scss">

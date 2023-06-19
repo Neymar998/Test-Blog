@@ -71,7 +71,6 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-
 router.beforeEach((to, from, next) => {
   const user = auth.currentUser
   if (to.matched.some((res) => res.meta.requireAuth)) {
@@ -83,6 +82,5 @@ router.beforeEach((to, from, next) => {
   }
   return next()
 })
-
 
 export default router

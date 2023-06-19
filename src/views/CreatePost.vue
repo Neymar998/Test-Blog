@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive, nextTick } from 'vue';
+import { computed, ref, reactive } from 'vue';
 import { usePostStore } from '../stores/post';
 import { useGetpostStore } from '../stores/get';
 import { useRouter } from 'vue-router';

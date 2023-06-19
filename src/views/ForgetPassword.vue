@@ -13,7 +13,7 @@
                         <Email class="icon" />
                     </div>
                 </div>
-                <button>重置</button>
+                <button @click.prevent="reset">重置</button>
                 <div class="angle"></div>
             </form>
             <div class="background"></div>
@@ -37,7 +37,10 @@ const closeModal = () => {
     modalActive.value = !modalActive.value;
     email.value = "";
 }
-
+const reset = () => {
+    modalMessage.value = '暂时无法使用'
+    modalActive.value = true
+}
 eventBus.on('closeModal', closeModal)
 
 onBeforeUnmount(() => {

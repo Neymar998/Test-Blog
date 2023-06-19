@@ -12,13 +12,12 @@
 <script setup>
 import Blogcard from '../components/Blogcard.vue';
 import { useBlogCardStore } from '../stores/counter';
-import { computed } from '@vue/reactivity';
-import { onBeforeUnmount, reactive, watchEffect } from 'vue';
+import { onBeforeUnmount, computed } from 'vue';
 import { useGetpostStore } from '../stores/get';
+
 const storeGetpost = useGetpostStore()
 const store = useBlogCardStore()
 const blogPosts = computed(() => storeGetpost.blogPosts)
-
 const editPost = computed({
     get() {
         return store.editPost
@@ -36,6 +35,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+.blog-card-wrap {
+    background-color: #fff;
+}
+
 .blog-cards {
     position: relative;
 
@@ -80,6 +83,20 @@ onBeforeUnmount(() => {
             background: #fff;
             left: 52px;
         }
+    }
+}
+
+.div {
+
+    max-width: 1500px;
+    border: 1px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .item {
+        width: 250px;
+        height: 250px;
     }
 }
 </style>

@@ -2,7 +2,7 @@
     <div class="modal">
         <div class="modal-content">
             <p>{{ props.props }}</p>
-            <button @click="closeModal">Close</button>
+            <button @click="closeModal">关闭</button>
         </div>
     </div>
 </template>

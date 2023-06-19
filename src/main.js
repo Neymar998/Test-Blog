@@ -5,7 +5,6 @@ import router from './router'
 import * as Quill from 'quill';
 import { auth } from './firebase/firebaseInit';
 
-
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
