@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import * as Quill from 'quill';
 import { auth } from './firebase/firebaseInit';
 
 const app = createApp(App)
