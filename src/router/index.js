@@ -47,7 +47,7 @@ const router = createRouter({
     {
       path: "/create-post",
       name: 'CreatePost',
-      component: () => import('../views/CreatePost copy.vue'),
+      component: () => import('../views/CreatePost.vue'),
       meta: {
         title: "CreatePost",
         requireAuth: true
