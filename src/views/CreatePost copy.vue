@@ -16,29 +16,39 @@
                     <span>File Chosen:{{ store.blogPhotoName }}</span>
                 </div>
             </div>
-            <div class="editor">
-                <quill-editor v-model:value="state.content" :options="state.editorOption" :disabled="state.disabled"
-                    @change="onEditorChange($event)" />
-            </div>
+            <Editor v-model="content" api-key="vbu9blblrlgdnv7j2zs8788kohlwf6206bqjgucdguelw77m" :init="{
+                height: 500,
+                width: 800,
+                language: 'zh_CN',
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'advcode',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks | ' +
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+            }" />
             <div class="blog-actions">
                 <button @click="uploadBlog"> 发 布 </button>
-                <!-- <router-link :to="{ name: 'BlogPreview' }" class="router-button">预览一下</router-link> -->
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue';
+import { computed, ref, } from 'vue';
 import { usePostStore } from '../stores/post';
 import { useGetpostStore } from '../stores/get';
 import { useRouter } from 'vue-router';
 import { useProfileStore } from '../stores/profile';
-import { quillEditor } from 'vue3-quill'
-import { addDoc, collection, updateDoc, doc } from 'firebase/firestore'
+import { addDoc, collection, updateDoc, doc } from 'firebase/firestore';
+import Editor from '@tinymce/tinymce-vue';
 import db from '../firebase/firebaseInit'
 import BlogCoverPreview from '../components/BlogCoverPreview.vue';
-import Loading from '../components/Loading.vue'
+import Loading from '../components/Loading.vue';
+
 const store = usePostStore()
 const profileStore = useProfileStore()
 const storeGetpost = useGetpostStore()
@@ -49,16 +59,7 @@ let errorMessage = ref(null)
 let loading = ref(null)
 let file = ref(null)
 let blogPhoto = ref(null)
-
-let state = reactive({
-    content: 'Write your blog here ...',
-    _content: 'fuck',
-    editorOption: {
-        placeholder: 'Write your blog here ...',
-        modules: {}
-    },
-    disabled: false
-})
+let content = ref(null)
 let blogTitle = computed({
     get() {
         return store.blogTitle
@@ -83,18 +84,13 @@ const fileChange = (event) => {
     // 读取文件
     reader.readAsDataURL(file.value)
 }
-//监听文本编辑器
-const onEditorChange = (html) => {
-    state._content = html
-    store.newBlogPost(html)
-}
 //是否预览封面图片
 const openPreview = () => {
     store.openPhotoPreview()
 }
 //发布blog
-// let blogID = ''
 const uploadBlog = async () => {
+    store.newBlogPost(content.value)
     if (blogTitle.value && store.blogHTML) {
         if (file.value) {
             loading.value = true
@@ -103,13 +99,12 @@ const uploadBlog = async () => {
                 blogTitle: blogTitle.value,
                 blogCoverPhoto: store.blogPhotoFileURL,
                 blogCoverName: store.blogPhotoName,
-                blogHTML: store.blogHTML.html,
+                blogHTML: store.blogHTML,
                 date: new Date(),
                 profileID: profileStore.profileId,
             }
             await addDoc(colRef, dataObj)
                 .then(async (docRef) => {
-                    // console.log('NO1：刚才发布的blogid:', docRef.id);
                     const blogID = docRef.id
                     await updateDoc(doc(db, 'blogPosts', blogID), {
                         blogID: blogID
@@ -118,7 +113,6 @@ const uploadBlog = async () => {
                 .then(async () => {
                     await storeGetpost.getPost()
                     loading.value = false
-                    // console.log('NO3：马上我要跳转了');
                     router.push('/')
                 }).catch((e) => {
                     loading.value = false

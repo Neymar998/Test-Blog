@@ -2,10 +2,10 @@
     <div class="post-view">
         <div class="container quillWrapper">
             <template v-if="currentBlog">
-                <h2>{{ currentBlog.blogTitle }}</h2>
-                <h4>Posted on:{{ formatDate(currentBlog.blogDate) }}</h4>
-                <img :src="currentBlog.blogCoverPhoto" alt="" class="blogCoverPhoto">
+                <!-- <h2>{{ currentBlog.blogTitle }}</h2> -->
+                <!-- <img :src="currentBlog.blogCoverPhoto" alt="" class="blogCoverPhoto"> -->
                 <div class="post-contain ql-editor" v-html="currentBlog.blogHTML"></div>
+                <h4>发布于:{{ formatDate(currentBlog.blogDate) }}</h4>
             </template>
             <template v-else>
                 <el-skeleton animated>
