@@ -1,12 +1,19 @@
 <template>
-    <div class="loading">
-        <span></span>
+    <div class="loading" v-show="msg.show">
+        <div class="loading-block">
+            <span></span>
+            <p>{{ msg.title }}</p>
+        </div>
     </div>
 </template>
 
+  
 <script setup>
-
+const props = defineProps({
+    msg: Object,
+});
 </script>
+
 <style lang="scss" >
 .loading {
     top: 0;
@@ -35,5 +42,12 @@
         border-radius: 50%;
         animation: spin ease 1000ms infinite;
     }
+
+    p {
+        color: #fff;
+        margin-top: 20px;
+    }
 }
-</style>
+</style> 
+
+

@@ -4,7 +4,7 @@
         <Blogpost :props="prop" v-for="(prop, index) in sampleBlogPost" :key="index" />
         <div class="blog-card-wrap">
             <div class="container">
-                <h3>View More Recent Card</h3>
+                <h3>更多最近帖子：</h3>
                 <div class="blog-cards">
                     <Blogcard :props="post" v-for="(post, index) in sampleBlogCards" :key="index" />
                 </div>

@@ -5,6 +5,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      path: '/Progress',
+      name: 'Progress',
+      component: () => import('../components/Progress.vue'),
+    },
+    {
       path: '/',
       name: 'Home',
       component: () => import('../views/Home.vue'),

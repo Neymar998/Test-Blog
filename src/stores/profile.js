@@ -20,7 +20,7 @@ export const useProfileStore = defineStore('profile', {
                 this.user = true
                 this.profileId = user.uid;
                 this.updateInfo(this.profileId)
-                console.log('userID:', user.uid);
+                // console.log('userID:', user.uid);
             } else {
                 // 退出登录时清空数据
                 this.user = null
@@ -29,7 +29,7 @@ export const useProfileStore = defineStore('profile', {
                 this.profileFirstName = null
                 this.profileLastName = null
                 this.profileUsername = null
-                console.log('没有user');
+                // console.log('没有user');
             }
         },
         async updateInfo(payload) {

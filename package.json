@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "element-plus": "^2.3.6",
+    "fake-progress": "^1.0.4",
     "firebase": "^9.17.2",
     "mitt": "^3.0.0",
     "pinia": "^2.0.32",

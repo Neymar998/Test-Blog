@@ -15,7 +15,7 @@
             <router-link class="link" :to="{ name: 'ViewBlog', params: { blogid: props.props.blogID } }">View The Post
                 <Arrow class="arrow" />
             </router-link>
-            {{ props.props.blogID }}
+            <!-- {{ props.props.blogID }} -->
         </div>
     </div>
 </template>

@@ -1,7 +1,6 @@
 <template>
     <div class="create-post">
         <BlogCoverPreview v-show="store.blogPhotoPreview" />
-        <Loading v-show="loading" />
         <div class="container">
             <div class="err-message" :class="{ invisible: !error }">
                 <h6><span>Error:</span>{{ errorMessage }}</h6>
@@ -38,7 +37,8 @@ import { quillEditor } from 'vue3-quill'
 import { addDoc, collection, updateDoc, doc } from 'firebase/firestore'
 import db from '../firebase/firebaseInit'
 import BlogCoverPreview from '../components/BlogCoverPreview.vue';
-import Loading from '../components/Loading.vue'
+import { load } from '../utils/loading.js'
+
 const store = usePostStore()
 const profileStore = useProfileStore()
 const storeGetpost = useGetpostStore()
@@ -46,7 +46,6 @@ const router = useRouter()
 
 let error = ref(null)
 let errorMessage = ref(null)
-let loading = ref(null)
 let file = ref(null)
 let blogPhoto = ref(null)
 
@@ -97,7 +96,7 @@ const openPreview = () => {
 const uploadBlog = async () => {
     if (blogTitle.value && store.blogHTML) {
         if (file.value) {
-            loading.value = true
+            load.show('发布中')
             const colRef = collection(db, 'blogPosts')
             const dataObj = {
                 blogTitle: blogTitle.value,
@@ -117,11 +116,11 @@ const uploadBlog = async () => {
                 })
                 .then(async () => {
                     await storeGetpost.getPost()
-                    loading.value = false
+                    load.hide()
                     // console.log('NO3：马上我要跳转了');
                     router.push('/')
                 }).catch((e) => {
-                    loading.value = false
+                    load.hide()
                     errorMessageFun(`发布失败${e}`, 5000)
                     return
                 })
@@ -129,8 +128,9 @@ const uploadBlog = async () => {
             errorMessageFun('请上传封面', 2000)
             return
         }
+    } else {
+        errorMessageFun('没有Title或者Blog为空', 2000)
     }
-    errorMessageFun('没有Title或者Blog为空', 2000)
 }
 const errorMessageFun = (str, time) => {
     error.value = true
