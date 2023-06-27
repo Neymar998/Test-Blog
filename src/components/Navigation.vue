@@ -6,10 +6,10 @@
             </div>
             <div class="nav-links">
                 <ul v-show="!mobile">
-                    <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
-                    <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
-                    <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
-                    <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'Home' }">首页</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'Blog' }">博客</RouterLink>
+                    <RouterLink class="link" :to="{ name: 'CreatePost' }">创建帖子</RouterLink>
+                    <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">登录/注册</RouterLink>
                 </ul>
                 <div class="profile" ref="profile" @click="profileMenu = !profileMenu" v-if="user">
                     <span>{{ profileStore.profileInitials }}</span>
@@ -50,10 +50,10 @@
         </menuIcon>
         <Transition name="mobile-nav">
             <ul class="mobile-nav" v-show="mobileNav">
-                <RouterLink class="link" :to="{ name: 'Home' }">Home</RouterLink>
-                <RouterLink class="link" :to="{ name: 'Blog' }">Blogs</RouterLink>
-                <RouterLink class="link" :to="{ name: 'CreatePost' }">Create Post</RouterLink>
-                <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">Login/Register</RouterLink>
+                <RouterLink class="link" :to="{ name: 'Home' }">首页</RouterLink>
+                <RouterLink class="link" :to="{ name: 'Blog' }">博客</RouterLink>
+                <RouterLink class="link" :to="{ name: 'CreatePost' }">创建帖子</RouterLink>
+                <RouterLink v-if='!user' class="link" :to="{ name: 'Login' }">登录/注册</RouterLink>
             </ul>
         </Transition>
     </header>

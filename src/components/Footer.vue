@@ -7,54 +7,50 @@
                     <ul>
                         <li>
                             <a href="#">
-                                <youTube class="svg-icon" />
+                                <qq class="svg-icon" />
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <twitter class="svg-icon" />
+                                <wechat class="svg-icon" />
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <instagram class="svg-icon" />
+                                <weibo class="svg-icon" />
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <linkedin class="svg-icon" />
+                                <zhihu class="svg-icon" />
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-2">
                     <ul>
-                        <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-                        <router-link class="link" :to="{ name: 'Blog' }">Blogs</router-link>
-                        <router-link class="link" :to="{ name: 'CreatePost' }">Create Post</router-link>
-                        <router-link class="link" :to="{ name: 'Login' }">Login In / Register</router-link>
+                        <RouterLink class="link" :to="{ name: 'Home' }">首页</RouterLink>
+                        <RouterLink class="link" :to="{ name: 'Blog' }">博客</RouterLink>
+                        <RouterLink class="link" :to="{ name: 'CreatePost' }">创建帖子</RouterLink>
+                        <RouterLink class="link" :to="{ name: 'Login' }">登录/注册</RouterLink>
                     </ul>
                 </div>
             </div>
             <div class="right">
-                <p>Copyright 2023 All Rights Reserved</p>
+                <p>© 2023 Test-Blog. All rights reserved.</p>
+                <p>京ICP备123456789号-00</p>
+                <p>渝公网安备 73216471923812846号 </p>
             </div>
         </div>
     </footer>
 </template>
   
 <script setup>
-import youTube from "../assets/Icons/youtube-brands.svg";
-import twitter from "../assets/Icons/twitter-brands.svg";
-import instagram from "../assets/Icons/instagram-brands.svg";
-import linkedin from "../assets/Icons/linkedin-brands.svg";
+import qq from "../assets/Icons/qq-brands.svg";
+import wechat from "../assets/Icons/wechat-brands.svg";
+import weibo from "../assets/Icons/weibo-brands.svg";
+import zhihu from "../assets/Icons/zhihu-brands.svg";
 
-// const user = () => {
-//     return this.$store.state.user;
-// }
-// const admin = () => {
-//     return this.$store.state.profileAdmin;
-// }
 </script>
   
 <style lang="scss" scoped>
