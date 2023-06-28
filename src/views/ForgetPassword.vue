@@ -26,7 +26,7 @@ import { ref, onBeforeUnmount } from 'vue';
 import Email from "../assets/Icons/envelope-regular.svg"
 import Loading from "../components/Loading.vue";
 import eventBus from '../libs/eventBus';
-import Modal from './components/Modal.vue'
+import Modal from '../components/Modal.vue'
 
 const modalMessage = ref(null)
 const modalActive = ref(null)
