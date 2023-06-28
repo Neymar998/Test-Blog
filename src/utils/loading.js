@@ -4,7 +4,7 @@ import myLoad from '@/components/Loading.vue'
 
 const msg = reactive({
     show: false,
-    title: '加载中...'
+    title: ''
 })
 
 const $loading = createApp(myLoad, { msg }).mount(document.createElement('div'))
