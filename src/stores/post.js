@@ -17,7 +17,6 @@ export const usePostStore = defineStore("post", () => {
     }
     const newBlogPost = (payload) => {
         blogHTML.value = payload
-        console.log('bianle');
     }
     const updateFileName = (payload) => {
         blogPhotoName.value = payload

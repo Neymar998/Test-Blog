@@ -6,6 +6,7 @@
                 <h4>发布时间:{{ formatDate(currentBlog.blogDate) }}</h4>
                 <img :src="currentBlog.blogCoverPhoto" alt="" class="blogCoverPhoto">
                 <div class="post-contain ql-editor" v-html="currentBlog.blogHTML"></div>
+                <h4>发布于:{{ formatDate(currentBlog.blogDate) }}</h4>
             </template>
             <template v-else>
                 <el-skeleton animated>
