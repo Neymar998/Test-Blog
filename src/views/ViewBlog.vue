@@ -3,7 +3,7 @@
         <div class="container quillWrapper">
             <template v-if="currentBlog">
                 <h2>{{ currentBlog.blogTitle }}</h2>
-                <h4>Posted on:{{ formatDate(currentBlog.blogDate) }}</h4>
+                <h4>发布时间:{{ formatDate(currentBlog.blogDate) }}</h4>
                 <img :src="currentBlog.blogCoverPhoto" alt="" class="blogCoverPhoto">
                 <div class="post-contain ql-editor" v-html="currentBlog.blogHTML"></div>
             </template>
