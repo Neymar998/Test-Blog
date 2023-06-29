@@ -1,7 +1,5 @@
 <template>
     <div class="reset-password">
-        <Modal v-if="modalActive" :props="modalMessage" @close-modal="closeModal"></Modal>
-        <Loading v-if="loadingActive"></Loading>
         <div class="form-wrap">
             <form class="reset">
                 <h2>重置密码</h2>
@@ -22,30 +20,17 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 import Email from "../assets/Icons/envelope-regular.svg"
-import Loading from "../components/Loading.vue";
-import eventBus from '../libs/eventBus';
-import Modal from '../components/Modal.vue'
+import modal from "../utils/modal"
 
-const modalMessage = ref(null)
-const modalActive = ref(null)
-const loadingActive = ref(null)
 const email = ref(null)
-
-const closeModal = () => {
-    modalActive.value = !modalActive.value;
-    email.value = "";
-}
 const reset = () => {
-    modalMessage.value = '暂时无法使用'
-    modalActive.value = true
+    modal('暂时无法使用', (close) => {
+        close()
+    })
 }
-eventBus.on('closeModal', closeModal)
 
-onBeforeUnmount(() => {
-    eventBus.off('closeModal', closeModal)
-})
 
 </script>
 <style lang="scss">

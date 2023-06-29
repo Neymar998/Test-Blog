@@ -17,17 +17,16 @@
             </div>
             <Editor v-model="content" api-key="vbu9blblrlgdnv7j2zs8788kohlwf6206bqjgucdguelw77m" :init="{
                 height: 500,
-                width: 800,
                 language: 'zh_CN',
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'advcode',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    'insertdatetime', 'media', 'table', 'wordcount'
                 ],
                 toolbar: 'undo redo | blocks | ' +
                     'bold italic backcolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
+                    'removeformat',
             }" />
             <div class="blog-actions">
                 <button @click="uploadBlog"> 发 布 </button>

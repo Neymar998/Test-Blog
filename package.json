@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@styils/vue": "^1.1.6",
     "@tinymce/tinymce-vue": "^5.1.0",
     "element-plus": "^2.3.6",
     "fake-progress": "^1.0.4",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.1",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
     "sass": "^1.59.2",
