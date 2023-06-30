@@ -14,7 +14,6 @@
     "element-plus": "^2.3.6",
     "fake-progress": "^1.0.4",
     "firebase": "^9.17.2",
-    "mitt": "^3.0.0",
     "pinia": "^2.0.32",
     "scss": "^0.2.4",
     "tinymce": "^6.5.1",

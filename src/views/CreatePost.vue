@@ -45,7 +45,7 @@ import { addDoc, collection, updateDoc, doc } from 'firebase/firestore';
 import Editor from '@tinymce/tinymce-vue';
 import db from '../firebase/firebaseInit'
 import BlogCoverPreview from '../components/BlogCoverPreview.vue';
-import { load } from '../utils/loading.js'
+import { load } from '../utils/loading.jsx'
 
 const store = usePostStore()
 const profileStore = useProfileStore()
@@ -90,7 +90,7 @@ const uploadBlog = async () => {
     store.newBlogPost(content.value)
     if (blogTitle.value && store.blogHTML) {
         if (file.value) {
-            load.show('发布中')
+            load.show('发布中...')
             const colRef = collection(db, 'blogPosts')
             const dataObj = {
                 blogTitle: blogTitle.value,
