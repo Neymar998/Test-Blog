@@ -21,7 +21,6 @@
             <button @click.prevent="loginIn">登录</button>
             <div class="angle"></div>
         </form>
-        <Modal v-if="modalActive" :props="modalMessage" @close-modal="closeModal"></Modal>
         <div class="background"></div>
     </div>
 </template>
@@ -29,33 +28,17 @@
 <script setup>
 import Email from "../assets/Icons/envelope-regular.svg"
 import Password from '../assets/Icons/lock-alt-solid.svg'
-import { ref, onBeforeUnmount } from 'vue'
+import { ref } from 'vue'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/firebaseInit'
 import { useRouter } from "vue-router";
 import { useProfileStore } from '../stores/profile'
-import Modal from '../components/Modal.vue'
-import eventBus from "../libs/eventBus";
+import modal from '../utils/modal'
 const profileStore = useProfileStore()
 
 const email = ref()
 const password = ref()
-const error = ref()
-const errorMsg = ref()
 const router = useRouter()
-
-let modalActive = ref(null)
-let modalMessage = ref(null)
-const closeModal = () => {
-    modalActive.value = !modalActive.value;
-    email.value = "";
-    password.value = "";
-}
-eventBus.on('closeModal', closeModal)
-onBeforeUnmount(() => {
-    eventBus.off('closeModal', closeModal)
-})
-
 
 const loginIn = () => {
     if (email.value != undefined && password.value != undefined) {
@@ -69,15 +52,10 @@ const loginIn = () => {
                 router.push('/')
             })
             .catch((err) => {
-                // const errorMessage = err.message
-                // error.value = true
-                // errorMsg.value = errorMessage
-                modalMessage.value = '邮箱或密码错误'
-                modalActive.value = true
+                modal(err.message, (close) => close())
             })
     } else {
-        error.value = true
-        errorMsg.value = ' Please fill out all the fields!'
+        modal('请输入邮箱和密码', (close) => close())
     }
 }
 
