@@ -1,5 +1,5 @@
 <template>
-    <Progress :show="show" :finish="finish"></Progress>
+    <!-- <Progress :show="show" :finish="finish"></Progress> -->
     <div class="blog-card-wrap">
         <div class="blog-cards container">
             <div class="toggle-edit">
@@ -15,10 +15,10 @@ import Blogcard from '../components/Blogcard.vue';
 import { useBlogCardStore } from '../stores/counter';
 import { onBeforeUnmount, computed, ref } from 'vue';
 import { useGetpostStore } from '../stores/get';
-import Progress from '../components/Progress.vue';
+// import Progress from '../components/Progress.vue';
 
-const show = ref(true)
-const finish = computed(() => storeGetpost.postLoaded)
+// const show = ref(true)
+// const finish = computed(() => storeGetpost.postLoaded)
 
 const storeGetpost = useGetpostStore()
 const store = useBlogCardStore()

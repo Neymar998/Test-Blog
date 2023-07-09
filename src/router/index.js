@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { auth } from '../firebase/firebaseInit';
-
+import Nprogress from 'nprogress'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -86,6 +86,15 @@ router.beforeEach((to, from, next) => {
     }
   }
   return next()
+})
+
+router.beforeEach((to, from) => {
+  if (to.path !== from.path) {
+    Nprogress.start()
+  }
+})
+router.afterEach(() => {
+  Nprogress.done()
 })
 
 export default router
