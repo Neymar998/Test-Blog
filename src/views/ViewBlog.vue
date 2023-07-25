@@ -2,7 +2,7 @@
     <div class="post-view">
         <div class="container quillWrapper">
             <template v-if="currentBlog">
-                <h2>{{ currentBlog.blogTitle }}</h2>
+                <h1>{{ currentBlog.blogTitle }}</h1>
                 <h4>发布时间:{{ formatDate(currentBlog.blogDate) }}</h4>
                 <img :src="currentBlog.blogCoverPhoto" alt="" class="blogCoverPhoto">
                 <div class="post-contain ql-editor" v-html="currentBlog.blogHTML"></div>
@@ -86,7 +86,18 @@ function formatDate(date) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.post-view {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+
+    margin: 0 20px;
+    max-width: 1000px;
+}
+
 .post-view {
 
     /* 设置页面的默认字体和颜色 */
