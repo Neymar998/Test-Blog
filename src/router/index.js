@@ -5,11 +5,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/Progress',
-      name: 'Progress',
-      component: () => import('../components/Progress.vue'),
-    },
-    {
       path: '/',
       name: 'Home',
       component: () => import('../views/Home.vue'),
@@ -67,7 +62,15 @@ const router = createRouter({
         title: "ViewBlog"
       }
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (to.meta.title == 'ViewBlog') {
+      return {
+        top: 0,
+        behavior: 'smooth',
+      }
+    }
+  }
 })
 
 //路由跳转时标签显示的文字
@@ -88,13 +91,7 @@ router.beforeEach((to, from, next) => {
   return next()
 })
 
-router.beforeEach((to, from) => {
-  if (to.path !== from.path) {
-    Nprogress.start()
-  }
-})
-router.afterEach(() => {
-  Nprogress.done()
-})
+router.beforeEach(() => { Nprogress.start() })
+router.afterEach(() => { Nprogress.done() })
 
 export default router
