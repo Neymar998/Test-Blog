@@ -38,7 +38,7 @@ const sampleBlogPost = computed(() => storeGetpost.blogPostsFeed);
 const sampleBlogCards = computed(() => storeGetpost.blogPostsCards);
 let welcomScreen = reactive({
     title: 'Welcome!',
-    blogPost: "欢迎来到个人博客，只为记录美好生活",
+    blogPost: "欢迎来到Test-blog，记录美好生活",
     welcomScreen: true,
     photo: "coding"
 })
